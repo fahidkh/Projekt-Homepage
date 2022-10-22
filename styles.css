@@ -1,0 +1,9 @@
+#header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 6px double red;
+}
+
+#header > img {
+    height: 90px;
+}
