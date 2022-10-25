@@ -1,9 +1,19 @@
 #header {
     display: flex;
+    background-color: dodgerblue;
+    color: aliceblue;
+    padding: 10px 10px;
     justify-content: space-between;
-    border-bottom: 6px double red;
+    border-bottom: 8px double black;
 }
 
 #header > img {
     height: 90px;
+}
+
+#belowheader {
+    font-size: large;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-style: italic;
+    background-image: linear-gradient(to bottom right, dodgerblue,white);
 }
