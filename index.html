@@ -5,6 +5,11 @@
         <title>Fahid's Solutions</title>
         <link rel="stylesheet" href="styles.css">
         <link rel="icon" type="image/x-icon" href="/assets/Logo-transparent.png">
+        <script>
+            function hidefooter() {
+              document.getElementById("foot").style = 'display: none;';
+            }
+            </script>
     </head>
     <body>
         <div id="header">
@@ -15,9 +20,23 @@
         <div id="belowheader">
         <p>This is my Homepage for the course Introduction to Web Engineering</p>
         </div>
+        <nav>
+            <ul>
+              <li>
+                <a>Home</a>
+              </li>
+              <li>
+                <a>Solutions</a>
+              </li>
+              <li>
+                <a>About</a>
+              </li>
+            </ul>
+          </nav>
     </body>
-    <footer>
+    <footer id="foot">
         <p>Refrences: The Links from the WE App to W3schools: <a href="www.w3schools.com">www.w3schools.com</a></p>
         <p>Created free Logo on: <a href="www.freelogodesign.org">www.freelogodesign.org</a></p>
+        <button type="button" onclick="hidefooter()">Hide Refrences</button>
       </footer>
 </html>    
