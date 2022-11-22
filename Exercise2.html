@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<style>
+body {background-color: #a9d7d1;}
+h1   {text-align: center;}
+.insideform    {
+    background-color: white;
+    margin: 20px;
+    padding: 10px;
+    text-align: center;
+    align-items: center;
+    display: grid;
+}
+.form__radio {
+    display: flex;
+    flex-direction: column;
+}
+.form__element {
+    display: inline-block;
+    width: 100%;
+    margin-top: 20px;
+    
+}
+.form__element > input{
+    width: 50%;
+}
+</style>
+</head>
+<body>
+<h1>Survey Form</h1>
+<form class="insideform">
+<p>Let us know how we can improve freeCodeCamp</p>
+<div class="form__element">
+    <label>*Name:</label>
+    <input type="text" placeholder="Enter your name">
+</div>
+<div class="form__element">
+    <label>*Email:</label>
+    <input type="text" placeholder="Enter your Email">
+</div>
+<div class="form__element">
+    <label>*Age:</label>
+    <input type="number" placeholder="Enter your Age">
+</div>
+<div class="form__element">
+    <label>Which option best describes your current role?</label>
+    <select id="dropdown" name="role" class="form-control" required>
+        <option selected value>Student</option>
+    </select>
+</div>
+<div class="form__element">
+    <label>*How likely is that you would recommend <br/>freeCodeCamp to a friend?</label>
+    <div class="form__radio">
+    <label>
+        <input
+          value="definitely"
+          type="radio"
+          class="reco"
+        />Definitely</label
+      >
+      <label>
+        <input
+          value="maybe"
+          type="radio"
+          class="reco"
+        />Maybe</label
+      >
+
+      <label
+        ><input
+          value="not-sure"
+          type="radio"
+          class="reco"
+        />Not sure</label
+      ></div>
+</div>
+<div class="form__element">
+    <label>What do you like most in FCC?</label>
+    <select id="dropdown" name="role" class="form-control" required>
+        <option selected value>Select an option</option>
+    </select>
+</div>
+<div class="form__element">
+    <label>Things the should be improved in the future(Check all that apply):</label>
+    <div class="form__radio">
+    <label>
+        <input
+          value="definitely"
+          type="radio"
+          class="imp"
+        />Front-end Projects</label
+      >
+      <label>
+        <input
+          value="maybe"
+          type="radio"
+          class="imp"
+        />Back-end Projects</label
+      >
+
+      <label
+        ><input
+          value="not-sure"
+          type="radio"
+          class="imp"
+        />Data Visualization</label
+      >
+    </div>
+</div>
+</form>
+</body>
+</html>
