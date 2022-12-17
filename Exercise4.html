@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <link rel="stylesheet" href="Exercise4.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    </head>
+<body>
+    <h1>Übung 4: JavaScript (JS)</h1>
+    <h2>4.1. Funktionen</h2>
+    <p>1. Schreiben Sie eine Funktion identity(), die ein Argument als Parameter entgegen nimmt und dieses als Ergebnis zurück gibt.</p>
+    <pre>function identity(x) {<br>
+        return x;<br>
+      }</pre>
+      
+    <p>2. Schreiben Sie eine Funktion identity_function(), die ein Argument als Parameter entgegen nimmt und eine Funktion zurück gibt, die dieses Argument zurück gibt.</p>  
+    <pre>function identity_function(x) {<br>
+        return function() {<br>
+          return x;<br>
+        }<br>
+      }</pre>
+      
+    <p>3. Schreiben Sie zwei binäre Funktionen add und mul, die Summe und Produkt berechnen.</p>
+    <pre>function add(x, y) {<br>
+        return x + y;<br>
+      }<br>
+      
+      function mul(x, y) {<br>
+        return x * y;<br>
+      }</pre>
+      
+    <p>4. Schreiben Sie eine Addier-Funktion addf(), so dass addf(x)(y) genau x + y zurück gibt. (Es haben also zwei Funktionsaufrufe zu erfolgen. addf(x) liefert eine Funktion, die auf y angewandt wird.)</p>  
+    <pre>function addf(x) {<br>
+        return function(y) {<br>
+          return x + y;<br>
+        }<br>
+      }</pre>
+      
+    <p>5. Schreiben Sie eine Funktion applyf(), die aus einer binären Funktion wie add(x,y) eine Funktion addf berechnet, die mit zwei Aufrufen das gleiche Ergebnis liefert, z.B. addf = applyf(add); addf(x)(y) soll add(x,y) liefern. Entsprechend applyf(mul)(5)(6) soll 30 liefern, wenn mul die binäre Multiplikation ist.</p>
+    <pre>function applyf(binaryFn) {<br>
+        return function(x) {<br>
+          return function(y) {<br>
+            return binaryFn(x, y);<br>
+          }<br>
+        }<br>
+      }</pre>
+      <hr>
+    <h2>4.2. Objekte</h2>
+    <p>Schreiben Sie die Prototypen Person und Auto in JavaScript, so dass jede Person weiß, welche Autos sie besitzt. Schreiben Sie eine Funktion conflict(), die feststellt, ob ein Auto von mehr als einer Person besessen wird.</p>
+    <pre>function Person(name, cars) {<br>
+        this.name = name;<br>
+        this.cars = cars;<br>
+      }<br>
+      
+      function Car(make, model) {<br>
+        this.make = make;<br>
+        this.model = model;<br>
+      }<br>
+      
+      Person.prototype.addCar = function(car) {<br>
+        this.cars.push(car);<br>
+      }<br>
+      
+      function conflict(car) {<br>
+        var owners = [];<br>
+        for (var i = 0; i < car.owners.length; i++) {<br>
+          var owner = car.owners[i];<br>
+          if (owners.indexOf(owner) !== -1) {<br>
+            return true;<br>
+          }<br>
+          owners.push(owner);<br>
+        }<br>
+        return false;<br>
+      }<br>
+      </pre>
+      <hr>
+      <h2>4.3. Fibonacci</h2>  
+      <p>Schreiben Sie im Browser die Fibonacci-Funktion in JS und geben Sie die ersten 2000 Fibonacci-Zahlen 0,1,1,2,3,5,8,13,... auf der Konsole mit console.log() aus.
+
+        Achten Sie auf Performanz: Berechnen Sie jeden Fibonacci-Wert nur einmal. Speichern Sie zu diesem Zweck jede berechnete Fibonacci-Zahl in einer Tabelle.</p>
+        <pre>function fibonacci(n) {<br>
+            var fib = [];<br>
+            fib[0] = 0;<br>
+            fib[1] = 1;<br>
+            for (var i = 2; i <= n; i++) {<br>
+              fib[i] = fib[i - 1] + fib[i - 2];<br>
+            }<br>
+            return fib[n];<br>
+          }<br>
+          
+          for (var i = 0; i < 2000; i++) {<br>
+            console.log(fibonacci(i));<br>
+          }<br>
+          </pre>
+      <p>1. Was ist die größte Fibonacci-Zahl, die sich noch als Integer sicher speichern lässt (Number.MAX_SAFE_INTEGER)? Die wievielte Fibonacci-Zahl in der Fibonacci-Folge ist das?</p>
+      <pre>'Number.MAX_SAFE_INTEGER' ist ungefähr 9,007,199,254,740,991.</pre>
+      <p>2. Was ist die größte Fibonacci-Zahl, die sich noch als Number speichern lässt (Number.MAX_VALUE)? Die wievielte Fibonacci-Zahl in der Fibonacci-Folge ist das (d.h. welche Stelle in der Fibonacci-Folge)?</p>
+      <pre>'Number.MAX_VALUE' ist ungefähr 1.7976931348623157e+308.</pre>
+      <p>3. Wechseln Sie zu BigInt, um alle 2000 Fibonacci-Zahlen korrekt anzuzeigen.</p>
+      <pre>function fibonacci(n) {<br>
+        var fib = [];<br>
+        fib[0] = BigInt(0);<br>
+        fib[1] = BigInt(1);<br>
+        for (var i = 2; i <= n; i++) {<br>
+          fib[i] = fib[i - 1] + fib[i - 2];<br>
+        }<br>
+        return fib[n];<br>
+      }<br>
+      
+      for (var i = 0; i < 2000; i++) {<br>
+        console.log(fibonacci(i));<br>
+      }<br>
+      </pre>
+      <hr>
+      <h2>4.4. TopSort</h2>
+      <p>In jedem Projekt fallen Aufgaben (Tasks) an. Zwischen den Aufgaben gibt es paarweise Abhängigkeiten. Z.B. kann Task2 von Task1 abhängen, d.h. erst muss Task1 fertig sein, bevor Task2 starten kann, weil es dessen Ergebnisse benötigt. Tasks können auch unabhängig voneinander sein und parallel ablaufen. In JavaScript können Sie die Abhängigkeiten in Arrays codieren, z.B. kann man bei [["schlafen","studieren"],["essen","studieren"],["studieren","prüfen"]] nicht prüfen, ohne vorher gegessen zu haben. Transitive Abhängigkeiten müssen also berücksichtigt werden.<br>
+
+        Schreiben Sie in JavaScript eine Funktion topsort(), die eine topologische Sortierung berechnet. Topologische Sortierung ist eine Form von Sortierung. Sie kennen die Funktion Array.prototype.sort() und wissen, was als Ergebnis erwartet wird, nämlich eine sortiere Liste. Genauso ist das hier. Die Funktion topsort() soll eine sortierte Liste ausgeben, die keine der eingegebenen Abhängigkeiten verletzt.<br>
+        
+        Achten Sie auf Performanz. Berechnen Sie die topologische Sortierung in linearer Zeit (Average Case).<br>
+        
+        Testen Sie Ihren JavaScript-Code. Verwenden Sie für Ihre Tests die Funktion console.assert.<br>
+        </p>
+      <pre>function topsort(edges) {<br>
+        const sorted = [],<br>
+          visited = {},<br>
+          graph = buildGraph(edges);<br>
+      
+        Object.keys(graph).forEach(visit);<br>
+      
+        return sorted;<br>
+      
+        function visit(node) {<br>
+          if (!visited[node]) {<br>
+            visited[node] = true;<br>
+            graph[node].forEach(function(dependent) {<br>
+              visit(dependent);<br>
+            });<br>
+            sorted.push(node);<br>
+          }<br>
+        }<br>
+      
+        function buildGraph(edges) {<br>
+          const graph = {};<br>
+      
+          edges.forEach(function(edge) {<br>
+            if (!graph[edge[0]]) graph[edge[0]] = [];<br>
+            if (!graph[edge[1]]) graph[edge[1]] = [];<br>
+            graph[edge[0]].push(edge[1]);<br>
+          });<br>
+      
+          return graph;<br>
+        }<br>
+      }<br>
+
+      console.assert(<br>
+  topsort([["sleep", "study"], ["eat", "study"], ["study", "check"]]) === ["eat", "sleep", "study", "check"]<br>
+);
+      </pre>
+</body>
