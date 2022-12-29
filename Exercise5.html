@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <link rel="stylesheet" href="Exercise5.css">
+    </head>
+<body>
+    <h2>5.1. Performanz-Messungen von DOM-Operationen</h2>
+    <table id="table-id"></table>
+    <h2>5.2. Rednerliste mit Zeitmessung</h2>
+    <h1>Renderliste</h1>
+    <div class="group">
+      <label>Neuer Rendner:</label>
+      <input id="name" type="text">
+      <button id ="btn" type="button" onclick="NewTimer();">Hinzufüngen</button>
+    </div>
+    <div id="form1"></div>
+    <h2>5.3. TopSort als Web-App</h2>
+    <p>Geben Sie unten die Prioritätsbeziehungen ein:</p>
+    <div id="inputContainer">
+      <!-- Hier werden Eingabefelder eingefügt -->
+    </div>
+    <button id="addRelationButton">Relation hinzufügen</button>
+    <button id="sortButton">Sortieren</button>
+    <div id="outputContainer">
+      <!-- Die Ausgabe wird hier angezeigt -->
+    </div>
+    <script>
+        function measurePerformance() {
+  const div = document.createElement('div');
+  div.innerHTML = '<p>Hallo Welt!</p>';
+  const p = div.querySelector('p');
+
+  const measurements = {
+    innerHTML: [],
+    innerText: [],
+    textContent: [],
+    outerHTML: [],
+  };
+
+  let startTime;
+  for (let i = 0; i < 100; i++) {
+    startTime = performance.now();
+    p.innerHTML;
+    measurements.innerHTML.push(performance.now() - startTime);
+
+    startTime = performance.now();
+    p.innerText;
+    measurements.innerText.push(performance.now() - startTime);
+
+    startTime = performance.now();
+    p.textContent;
+    measurements.textContent.push(performance.now() - startTime);
+
+    startTime = performance.now();
+    p.outerHTML;
+    measurements.outerHTML.push(performance.now() - startTime);
+  }
+
+  const table = document.getElementById('table-id');
+  table.innerHTML = '';
+  const thead = document.createElement('thead');
+  const tbody = document.createElement('tbody');
+  const headRow = document.createElement('tr');
+  headRow.innerHTML = '<th>Method</th><th>Performance Times (ms)</th>';
+  thead.appendChild(headRow);
+  table.appendChild(thead);
+
+  for (const method in measurements) {
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${method}</td><td>${measurements[method].join(', ')}</td>`;
+    tbody.appendChild(row);
+  }
+
+  table.appendChild(tbody);
+  // Abrufen der h2-Elemente
+  const h2Elements = document.querySelectorAll('h2');
+
+// Einfügen des Tabellenelements zwischen den h2-Elementen
+h2Elements[0].parentNode.insertBefore(table, h2Elements[1]);
+}
+
+measurePerformance();
+
+let timerCounter = 0;
+
+function NewTimer() {
+  // Erstellen eines Containerelements
+  const container = document.createElement("div");
+
+  // Abrufen eines Verweises auf das "name"-Element
+  var x = document.getElementById("name").value;
+  
+  // Erstellen eines li-Elements und eines Textknotens, der den Wert von x enthält
+  const para = document.createElement("li");
+  const node = document.createTextNode(x);
+  para.appendChild(node);
+  
+  // Anhängen des Elements li an den Container
+  container.appendChild(para);
+
+  // Erstellen Sie ein div-Element mit der Klasse "myDiv" und einem Textknoten, der die Zeichenfolge "00:00:000" enthält.
+  var z = '00:00:000';
+  const y = document.createElement("div");
+  y.classList.add("myDiv")
+  const a = document.createTextNode(z);
+  y.appendChild(a);
+  
+  // Anhängen des div-Elements an den Container
+  container.appendChild(y);
+
+  // Erstellen Sie ein Schaltflächenelement und setzen Sie dessen Eigenschaft innerHTML auf "Start".
+  let startButton = document.createElement("button");
+  startButton.innerHTML = "Start";
+  
+  // Erzeugen einer eindeutigen ID für die Schaltfläche
+  startButton.id = `timer-button-${timerCounter}`;
+  timerCounter += 1;
+  
+  // Fügen Sie der Schaltfläche einen Ereignislistener hinzu, der den Timer startet, wenn die Schaltfläche angeklickt wird.
+  startButton.addEventListener("click", () => {
+    startTimer(startButton, startButton.id);
+  });
+  
+  // Anhängen des Schaltflächenelements an den Container
+  container.appendChild(startButton);
+
+  // Erstellen Sie ein Stop-Button-Element und setzen Sie dessen innerHTML-Eigenschaft auf "Stop".
+  let stopButton = document.createElement("button");
+  stopButton.innerHTML = "Stop";
+  
+  // Fügen Sie der Stopp-Schaltfläche einen Ereignis-Listener hinzu, der den Timer anhält, wenn die Schaltfläche angeklickt wird.
+  stopButton.addEventListener("click", () => {
+    stopTimer(startButton.id);
+  });
+  
+  // Anhängen des Stopp-Schaltflächen-Elements an den Container
+  container.appendChild(stopButton);
+
+  // Anhängen des Containers an das Element mit der ID "form1"
+  document.getElementById("form1").appendChild(container);
+}
+
+let timerInterval;
+
+function startTimer(btn, id) {
+  // Deklarieren Sie die Zeitgebervariablen
+  let minutes = 0;
+  let seconds = 0;
+  let milliseconds = 0;
+
+  // Deklarieren Sie eine Flag-Variable, die anzeigt, ob der Timer läuft oder nicht
+  let timerRunning = false;
+
+  // Aktualisieren des Timers alle 1 Millisekunde
+  timerInterval = setInterval(() => {
+    milliseconds += 1;
+    
+    // Erhöhen Sie bei Bedarf die Sekunden und Minuten
+    if (milliseconds >= 1000) {
+      seconds += 1;
+      milliseconds = 0;
+    }
+    if (seconds >= 60) {
+      minutes += 1;
+      seconds = 0;
+    }
+    
+    // Formatieren Sie den Timer als String im Format "MM:SS:mmm".
+    let timerString = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}:${milliseconds.toString().padStart(3, "0")}`;
+    
+    // Aktualisieren Sie den Text im div-Element mit dem formatierten Zeitgeberwert
+    document.getElementById(id).previousSibling.innerHTML = timerString;
+  }, 1);
+}
+
+function stopTimer(id) {
+  // Löschen Sie das Intervall, das den Timer aktualisiert
+  clearInterval(timerInterval);
+}
+
+
+
+const inputFields = [];
+
+      // Ein Eingabefeld hinzufügen
+      const addInputField = () => {
+        const inputField = document.createElement('input');
+        inputFields.push(inputField);
+        document.getElementById('inputContainer').appendChild(inputField);
+      };
+
+      // Hinzufügen eines Eingabefeldes, wenn die Schaltfläche "Beziehung hinzufügen" angeklickt wird
+      document.getElementById('addRelationButton').addEventListener('click', addInputField);
+
+      // Topologische Sortierung durchführen, wenn die Schaltfläche "Sortieren" angeklickt wird
+      document.getElementById('sortButton').addEventListener('click', () => {
+        // Parsen der Eingabefelder
+        const relations = inputFields.map(inputField => inputField.value.trim()).filter(relation => relation !== '');
+
+        // Cein Diagramm mit den gegebenen Beziehungen zu erstellen
+        const graph = new Map();
+        relations.forEach(relation => {
+          const [from, to] = relation.split('->').map(node => node.trim());
+          if (!graph.has(from)) {
+            graph.set(from, []);
+          }
+          graph.get(from).push(to);
+        });
+
+        // Topologische Sortierung durchführen
+        const sorted = [];
+        const visited = new Set();
+        const dfs = (node) => {
+          visited.add(node);
+          graph.get(node).forEach(neighbor => {
+            if (!visited.has(neighbor)) {
+              dfs(neighbor);
+            }
+          });
+          sorted.unshift(node);
+        };
+        for (const node in graph) {
+            if (!visited.has(node)) {
+              dfs(node);
+            }
+          }
+
+        // Anzeige der sortierten Knoten
+        document.getElementById('outputContainer').innerHTML = sorted.join(' -> ');
+      });
+    </script>
+</body>    
