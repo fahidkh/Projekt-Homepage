@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+    </head>
+<body>
+    <h2>6.1. Klammerpaare</h2>
+    <input type="text" id="input">
+    <h2>6.2. Topologische Iterierbarkeit</h2>
+    <input type="text" id="input1">
+    <input type="text" id="input2">
+    <button id="add-button">Add</button>
+    <h2>6.3. Topologischer Generator </h2>
+    <div id="container"></div>
+    <h2>6.4. Proxy</h2>
+    <div id="container1"></div>
+    <h2>6.5. DeepCopy</h2>
+    <div id="container2"></div>
+
+
+<script>
+const input = document.getElementById('input');
+function checkBrackets(string, brackets) {
+  const stack = [];
+
+  for (const ch of string) {
+    if (brackets.left.includes(ch)) {
+      stack.push(ch);
+    } else if (brackets.right.includes(ch)) {
+      if (stack.length === 0 || brackets[stack.pop()] !== ch) {
+        return false;
+      }
+    }
+  }
+
+  return stack.length === 0;
+}
+
+console.assert(checkBrackets('[{()}]', { left: '{([', right: '})]', '{': '}', '[': ']', '(': ')' }));
+console.assert(!checkBrackets('[{(}]', { left: '{([', right: '})]', '{': '}', '[': ']', '(': ')' }));
+document.getElementById('input').style.color = checkBrackets(input.value, { left: '{([', right: '})]', '{': '}', '[': ']', '(': ')' }) ? 'black' : 'red';
+input.addEventListener('input', () => {
+  input.style.color = checkBrackets(input.value, { left: '{([', right: '})]', '{': '}', '[': ']', '(': ')' }) ? 'green' : 'red';
+});
+
+//-----------------------------------------------------------------------------------------------------//
+
+class Vorrang {
+  constructor() {
+    this.relations = new Map();
+    this.vertices = new Set();
+    for (const relation of relations) {
+      const [a, b] = relation;
+      this.addRelation(a, b);
+    }
+  }
+
+  addRelation(a, b) {
+    this.vertices.add(a);
+    this.vertices.add(b);
+    if (!this.relations.has(a)) this.relations.set(a, []);
+    this.relations.get(a).push(b);
+  }
+
+  *[Symbol.iterator]() {
+    const visited = new Set();
+    const stack = [...this.vertices];
+
+    while (stack.length > 0) {
+      const vertex = stack.pop();
+      if (visited.has(vertex)) continue;
+      visited.add(vertex);
+      yield vertex;
+      if (this.relations.has(vertex)) {
+        for (const relation of this.relations.get(vertex)) {
+          stack.push(relation);
+        }
+      }
+    }
+  }
+}
+
+const input1 = document.getElementById('input1');
+const input2 = document.getElementById('input2');
+const addButton = document.getElementById('add-button');
+const relationsList = document.getElementById('relations');
+
+const studentenLeben = new Vorrang( [
+  [ "schlafen", "studieren" ],
+  [ "essen", "studieren" ],
+  [ "studieren", "prüfen" ]
+] );
+
+addButton.addEventListener('click', () => {
+studentenLeben.addRelation(input1.value, input2.value);
+});
+
+for (const next of studentenLeben) {
+  console.log(next);
+}
+
+//---------------------------------------------------------------------------------------------------//
+
+class Vorrang_Generator {
+  constructor(relations) {
+    this.relations = new Map();
+    this.vertices = new Set();
+
+    for (const relation of relations) {
+      const [a, b] = relation;
+      this.addRelation(a, b);
+    }
+  }
+
+  addRelation(a, b) {
+    this.vertices.add(a);
+    this.vertices.add(b);
+    if (!this.relations.has(a)) this.relations.set(a, []);
+    this.relations.get(a).push(b);
+  }
+
+  *[Symbol.iterator]() {
+    const visited = new Set();
+    const stack = [...this.vertices];
+
+    while (stack.length > 0) {
+      const vertex = stack.pop();
+      if (visited.has(vertex)) continue;
+      visited.add(vertex);
+      yield vertex;
+      if (this.relations.has(vertex)) {
+        for (const relation of this.relations.get(vertex)) {
+          stack.push(relation);
+        }
+      }
+    }
+  }
+}
+
+const studentLife = new Vorrang_Generator([
+  ["sleep", "study"],
+  ["eat", "study"],
+  ["study", "check"]
+]);
+
+const container = document.getElementById("container");
+
+const expected = ["sleep", "eat", "study", "check"];
+const actual = [...studentLife];
+
+const p = document.createElement("p");
+if (expected.length === actual.length && expected.every((e, i) => e === actual[i])) {
+  p.textContent = "Assertion passed";
+  p.style.color = "green";
+} else {
+  p.textContent = "Assertion failed";
+  p.style.color = "red";
+}
+container.appendChild(p);
+
+//----------------------------------------------------------------------------------------------------------------
+
+class Precedence {
+  constructor(relations) {
+    this.relations = new Map();
+    this.vertices = new Set();
+
+    for (const relation of relations) {
+      const [a, b] = relation;
+      this.addRelation(a, b);
+    }
+
+    this.logger = new Proxy(this, {
+      get: (target, property) => {
+        if (property === Symbol.iterator) {
+          return function* () {
+            const visited = new Set();
+            const stack = [...target.vertices];
+
+            while (stack.length > 0) {
+              console.log(`${stack.length} precedence relations remain`);
+              const vertex = stack.pop();
+              if (visited.has(vertex)) continue;
+              visited.add(vertex);
+              yield vertex;
+              if (target.relations.has(vertex)) {
+                for (const relation of target.relations.get(vertex)) {
+                  stack.push(relation);
+                }
+              }
+            }
+          };
+        } else {
+          return target[property];
+        }
+      }
+    });
+  }
+
+  addRelation(a, b) {
+    this.vertices.add(a);
+    this.vertices.add(b);
+    if (!this.relations.has(a)) this.relations.set(a, []);
+    this.relations.get(a).push(b);
+  }
+}
+
+const studentLife1 = new Precedence([
+  ["sleep", "study"],
+  ["eat", "study"],
+  ["study", "check"]
+]);
+
+const container1 = document.getElementById("container1");
+
+const expected1 = ["sleep", "eat", "study", "check"];
+const actual1 = [...studentLife.logger];
+
+const p1 = document.createElement("p1");
+if (expected1.length === actual1.length && expected1.every((e, i) => e === actual1[i])) {
+  p1.textContent = "Assertion passed";
+  p1.style.color = "green";
+} else {
+  p1.textContent = "Assertion failed";
+  p1.style.color = "red";
+}
+container1.appendChild(p1);
+
+//--------------------------------------------------------------------------------------------------------------
+
+const deepCopy = struct =>
+  Array.isArray(struct)
+    ? struct.map(deepCopy)
+    : typeof struct === "object"
+    ? Object.fromEntries(
+        Object.entries(struct).map(([key, value]) => [key, deepCopy(value)])
+      )
+    : struct;
+
+console.assert(
+  deepCopy([1, 2, [3, 4], { a: 5, b: { c: 6 } }])
+    === [1, 2, [3, 4], { a: 5, b: { c: 6 } }],
+  "Testfall 1 ist fehlgeschlagen"
+);
+console.assert(
+  deepCopy({ a: 1, b: 2, c: { d: 3, e: 4 } })
+    === { a: 1, b: 2, c: { d: 3, e: 4 } },
+  "Testfall 2 ist fehlgeschlagen"
+);
+console.assert(
+  deepCopy(null) === null,
+  "Testfall 3 ist fehlgeschlagen"
+);
+
+const container3 = document.getElementById("container3");
+
+const testCases = [
+  [
+    deepCopy([1, 2, [3, 4], { a: 5, b: { c: 6 } }]),
+    [1, 2, [3, 4], { a: 5, b: { c: 6 } }]
+  ],
+  [
+    deepCopy({ a: 1, b: 2, c: { d: 3, e: 4 } }),
+    { a: 1, b: 2, c: { d: 3, e: 4 } }
+  ],
+  [deepCopy(null), null]
+];
+
+for (const [actual, expected] of testCases) {
+  const p3 = document.createElement("p3");
+  if (actual === expected) {
+    p3.textContent = "Test case passed";
+    p3.style.color = "green";
+  } else {
+    p3.textContent = "Test case failed";
+    p3.style.color = "red";
+  }
+  container.appendChild(p3);
+}
+
+</script>
+</body>
+</html>
