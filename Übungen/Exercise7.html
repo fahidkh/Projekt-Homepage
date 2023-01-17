@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <link rel="stylesheet" href="Exercise5.css">
+    </head>
+<body>
+
+    <h2>function identity_function(x) {<br>
+        return function() {<br>
+          return x;<br>
+        }<br>
+      }<br></h2>
+      <h2>
+        function addf(x) {<br>
+            return function(y) {<br>
+              return x + y;<br>
+            }<br>
+          }<br>
+      </h2>
+      <h2>
+        function applyf(binaryFn) {<br>
+            return function(x) {<br>
+              return function(y) {<br>
+                return binaryFn(x, y);<br>
+              }<br>
+            }<br>
+          }<br>
+      </h2>
+      <h2>
+        function curry(binaryFn, x) {<br>
+            return function(y) {<br>
+              return binaryFn(x, y);<br>
+            }<br>
+          }<br>
+      </h2>
+      <h2>
+        //addf<br>
+var inc = addf(1);<br>
+
+//applyf<br>
+var inc = applyf(function(x, y) { return x + y; })(1);<br>
+
+//curry<br>
+var inc = curry(function(x, y) { return x + y; }, 1);<br>
+      </h2>
+      <h2>
+        function methodize(binaryFn) {<br>
+            return function(y) {<br>
+              return binaryFn(this, y);<br>
+            }<br>
+          }<br>
+      </h2>
+      <h2>
+        function demethodize(unaryMethod) {<br>
+            return function(x, y) {<br>
+              return unaryMethod.call(x, y);<br>
+            }<br>
+          }<br>
+      </h2>
+      <h2>
+        function twice(binaryFn) {<br>
+            return function(x) {<br>
+              return binaryFn(x, x);<br>
+            }<br>
+          }<br>
+      </h2>
+      <h2>
+        function composeu(fn1, fn2) {<br>
+            return function(x) {<br>
+              return fn2(fn1(x));<br>
+            }<br>
+          }<br>
+      </h2>
+      <h2>
+        function composeb(fn1, fn2) {<br>
+            return function(x, y, z) {<br>
+              return fn2(fn1(x, y), z);<br>
+            }<br>
+          }<br>
+      </h2>
+      <h2>
+        function once(fn) {<br>
+            var called = false;<br>
+            return function() {<br>
+              if (!called) {<br>
+                called = true;<br>
+                return fn.apply(this, arguments);<br>
+              } else {<br>
+                throw new Error("Function can only be called once.");<br>
+              }<br>
+            }<br>
+          }<br>
+      </h2>
+      <h2>
+        function counterf(start) {<br>
+            var count = start;<br>
+            return {<br>
+              inc: function() {<br>
+                count++;<br>
+                return count;<br>
+              },<br>
+              dec: function() {<br>
+                count--;<br>
+                return count;<br>
+              }<br>
+            }<br>
+          }<br>
+      </h2>
+      <h2>
+        function revocable(fn) {<br>
+            var revoker = false;<br>
+            return {<br>
+              invoke: function() {<br>
+                if (!revoker) {<br>
+                  return fn.apply(this, arguments);<br>
+                } else {<br>
+                  throw new Error("Function has been revoked.");<br>
+                }<br>
+              },<br>
+              revoke: function() {<br>
+                revoker = true;<br>
+              }<br>
+            }<br>
+          }<br>
+      </h2>
+      <h2>
+        function vector() {<br>
+            var data = [];<br>
+            return {<br>
+              get: function(index) {<br>
+                return data[index];<br>
+              },<br>
+              store: function(index, value) {<br>
+                data[index] = value;<br>
+              },<br>
+              append: function(value) {<br>
+                data.push(value);<br>
+              }<br>
+            }<br>
+          }<br>
+      </h2>
+      <h2>
+        var text = "text to be analyzed";<br>
+var stopWords = ["stop", "words", "to", "be", "filtered"];<br>
+
+// Filter stop words and HTML tags<br>
+var filteredText = text.replace(/<[^>]*>/g, "").split(" ").filter(function(word) {<br>
+  return stopWords.indexOf(word) === -1;<br>
+});<br>
+
+// Count frequency of each word<br>
+var wordCount = {};<br>
+filteredText.forEach(function(word) {<br>
+  wordCount[word] = wordCount[word] ? wordCount[word] + 1 : 1;<br>
+});<br>
+
+// Sort by frequency and return the top 3 most frequent words<br>
+var topWords = Object.keys(wordCount).sort(function(a, b) {<br>
+  return wordCount[b] - word<br>
+      </h2>      
+    </body>
+</html>
