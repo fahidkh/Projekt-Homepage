@@ -1,0 +1,26 @@
+#navigator {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  
+  #main-menu {
+    flex: 1;
+  }
+  
+  #sub-menu {
+    flex: 1;
+  }
+  
+  #documentation {
+    flex: 2;
+  }
+  
+  #references {
+    flex: 1;
+  }
+  
+  button {
+    width: 100%;
+  }
+  

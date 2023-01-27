@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="Exercise8.3.css">
+    <title>WWW Navigator</title>
+  </head>
+  <body>
+    <header>
+      <h1>WWW Navigator</h1>
+      <nav class="main-menu">
+        <ul>
+          <li><a href="#" onclick="displayContent('html')">HTML</a></li>
+          <li><a href="#" onclick="displayContent('css')">CSS</a></li>
+          <li><a href="#" onclick="displayContent('javascript')">JavaScript</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="container">
+      <aside class="sub-menu" id="sub-menu"></aside>
+      <div class="content" id="content"></div>
+      <aside class="references" id="references"></aside>
+    </div>
+    <script>
+      async function fetchJSON() {
+        
+        const response = await fetch('content.json');
+        
+        const data = await response.json();
+        
+        window.jsonData = data;
+        
+        displayContent('html');
+      }
+      fetchJSON();
+      
+      function displayContent(topic) {
+       
+        document.getElementById("sub-menu").innerHTML = "";
+        document.getElementById("content").innerHTML = "";
+        document.getElementById("references").innerHTML = "";
+        
+        
+        const subMenu = document.getElementById("sub-menu");
+        for (const subTopic in window.jsonData[topic]) {
+          const subMenuItem = document.createElement("li");
+          subMenuItem.innerHTML = `<a href="#" onclick="displaySubContent('${topic}', '${subTopic}')">${subTopic}</a>`;
+          subMenu.appendChild(subMenuItem);
+        }
+      }
+      
+      function displaySubContent(topic, subTopic) {
+        
+        document.getElementById("content").innerHTML = "";
+        document.getElementById("references").innerHTML = "";
+        
+        
+        const content = document.getElementById("content");
+        content.innerHTML = window.jsonData[topic][subTopic].content;
+        
+        
+        const references = document.getElementById("references");
+        for (const reference of window.jsonData[topic][subTopic].references) {
+          const referenceItem = document.createElement("li");
+          referenceItem.innerHTML = `<a href="${reference}" target="_blank">${reference}</a>`;
+          references.appendChild(referenceItem);
+        }
+      }
+    </script>
+  </body>
+</html>
