@@ -1,0 +1,53 @@
+#svg1 {
+    width: 200px;
+    height: 150px;
+    background-color: #cb798d;
+    display: inline-block;
+  }
+
+#text1 {
+    font-size: 20px;
+    fill: white;
+    text-anchor: middle;
+    transform: translate(100px, 50px);
+  }
+
+  #svg1:hover {
+    transform: scale(2) translate(100px, 50px);
+    cursor: pointer;
+  }
+
+  #chartContainer {
+    width: 100%;
+    height: 500px;
+  }
+  
+  .bar {
+    fill: steelblue;
+    width: 20px;
+    height: 0px;
+    transition: height 0.3s;
+  }
+  
+  .bar:hover {
+    fill: blue;
+    cursor: pointer;
+  }
+  
+  .board {
+    display: flex;
+    flex-wrap: wrap;
+    width: 305px;
+    height: 305px;
+    border: 1px solid black;
+  }
+  .square {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    border: 1px solid black;
+  }
+  
