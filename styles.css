@@ -1,5 +1,6 @@
 #header {
     display: flex;
+    position: sticky;
     background-color: #008CBA;
     color: aliceblue;
     padding: 10px 10px;
@@ -17,6 +18,24 @@ body {
   color: #fff;
 }
 
+#dark-mode-btn {
+  height: 50px;
+  background-color: lightgray;
+  border-radius: 25px;
+  border: none;
+  margin-top: 20px;
+  outline: none;
+  color: black;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+}
+
+#dark-mode-btn:hover {
+  background-color: gray;
+  color: white;
+}
+
 #header > img {
     height: 90px;
 }
@@ -29,10 +48,6 @@ body {
     text-align: center;
 }
 
-footer {
-    padding: 5px;
-    border: 2px double black;
-}
 
 .solution__element > button {
   background-color: #f8b01fd8;
@@ -80,5 +95,21 @@ footer {
       grid-template-columns: repeat(1, 1fr);
     }
   }
-  
-  
+
+  .bottom-nav {
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    width: 98%;
+    bottom: 0;
+    padding: 1rem;
+    background-color: #008CBA;
+    color: #fff;
+    justify-content: space-between;
+    padding: 10px 20px;
+  }
+
+  .bottom-nav a {
+    color: #fff;
+    text-decoration: none;
+  }

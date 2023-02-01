@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="Exercise10.css">
+        <link rel="stylesheet" href="/header.css">
+    </head>
+  <body>
+    <div id="header-container"></div>
+    <h2>10.1. Static classes in TypeScript</h2>
+    <p>Gibt es in TypeScript statische Klassen? Erläutern Sie den Unterschied von TypeScript zu anderen objekt-orientierten, statisch typisierten Programmiersprachen wie Java und C#.</p>
+    <p>Antwort: Ja, TypeScript unterstützt statische Klassen; TypeScript ist eine statisch typisierte Sprache, wie Java und C#, aber sie erlaubt optionale Typ-Annotationen und hat eine automatische Typ-Inferenz, was die Verwendung im Vergleich zu diesen anderen Sprachen erleichtert.</p>
+    <h2>10.2. Fehler finden mit TypeScript</h2>
+    <p>Gegeben sei folgendes fehlerbehaftete JavaScript-Programm. Ergänzen Sie dieses um möglichst viele Typisierungen und übersetzen Sie es in ein TypeScript-Programm.<br>
+
+      const add = (x,y) => x+y;<br>
+      const equals = (x,y) => x===y;<br>
+      
+      console.log( add(1,2) );<br>
+      console.log( add(true, true ) );<br>
+      console.log( add(true, false ) );<br>
+      var x = y = 1;<br>
+      console.log( add(equals(x,y), equals(y,x)) );<br>
+      Was ist der Fehler in dem gegebenen JavaScript-Code? Welche Fehler meldet TypeScript? Geben Sie weitere Beispiele an, wie TypeScript bei der Fehlersuche helfen kann.</p>
+      <p>Antwort:<br>
+        const add = (x: number, y: number): number => x + y;<br>
+        const equals = (x: any, y: any): boolean => x === y;<br>
+        
+        console.log(add(1, 2));<br>
+        console.log(add(true, true));<br>
+        console.log(add(true, false));<br>
+        let x = 1;<br>
+        let y = 1;<br>
+        console.log(add(equals(x, y), equals(y, x)));<br>
+        einige Fehler, die ich in dem Javascript-Code gefunden habe:
+Die Funktion add soll zwei Argumente desselben Typs annehmen, aber sie kann Argumente beliebigen Typs annehmen. Gleiches gilt für die Funktion equals; Die Variablenzuweisung var x = y = 1 ist ein Syntaxfehler<br>
+        Im TypeScript-Programm werden die Fehler im JavaScript-Code vom TypeScript-Compiler als Typ-Fehlanpassungen gemeldet. Dies ermöglicht es Entwicklern, diese Fehler frühzeitig zu erkennen</p>
+  </body>
+  <script src="Exercise10.js"></script>
+</html>

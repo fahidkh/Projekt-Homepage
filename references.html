@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="references.css">
+        <link rel="stylesheet" href="/header.css">
+    </head>
+  <body>
+    <div id="header-container"></div>
+    <div id="content"></div>
+
+<script>
+  const contentDiv = document.getElementById("content");
+
+  async function loadContent() {
+    const response = await fetch("references.json");
+    const data = await response.json();
+
+    let html = "";
+    data.references.forEach(page => {
+      html += `
+        <h2>${page.title}</h2>
+        <p><a href="${page.link}">${page.link}</a></p>
+      `;
+    });
+    contentDiv.innerHTML = html;
+  }
+
+  loadContent();
+  fetch('/header.html')
+      .then(response => response.text())
+      .then(headerHtml => {
+        document.querySelector('#header-container').innerHTML = headerHtml;
+      });
+</script>
+<script src="bottom-nav.js"></script>
+</html>
