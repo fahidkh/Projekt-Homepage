@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <link rel="stylesheet" href="/header.css">
+    <link rel="stylesheet" href="ExtraExercise.css">
+  </head>
+  <body>
+  <div id="header-container"></div>
+  <h2>ECMAScript Language Extensions</h2>
+<h3>Arrow Functions</h3>
+<pre>
+// Before
+const square = function (x) {
+  return x * x;
+};
+
+// After
+const square = (x) => x * x;
+</pre>
+
+<h3>Classes</h3>
+<pre>
+// Before
+function Car(make, model) {
+  this.make = make;
+  this.model = model;
+}
+
+Car.prototype.getDescription = function () {
+  return `${this.make} ${this.model}`;
+};
+
+// After
+class Car {
+  constructor(make, model) {
+    this.make = make;
+    this.model = model;
+  }
+
+  getDescription() {
+    return `${this.make} ${this.model}`;
+  }
+}
+</pre>
+
+<h3>Destructuring</h3>
+<pre>
+// Before
+const user = {
+  name: 'John Doe',
+  age: 30,
+  email: 'john.doe@example.com'
+};
+
+const name = user.name;
+const age = user.age;
+const email = user.email;
+
+// After
+const { name, age, email } = user;
+</pre>
+
+<h3>Promises</h3>
+<pre>
+// Before
+function fetchData(url) {
+  return new Promise(function (resolve, reject) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        resolve(xhr.responseText);
+      } else {
+        reject(new Error(xhr.statusText));
+      }
+    };
+    xhr.onerror = function () {
+      reject(new Error('Network Error'));
+    };
+    xhr.send();
+  });
+}
+
+fetchData('data.json')
+  .then(function (data) {
+    console.log(data);
+  })
+  .catch(function (error) {
+    console.error(error);
+  });
+
+// After
+async function fetchData(url) {
+  try {
+    const response = await fetch(url);
+    if (response.ok) {
+        const data = await response.json();
+        return data;
+        }
+        throw new Error(response.statusText);
+        }
+        
+        async function displayData(url) {
+        const data = await fetchData(url);
+        // ...
+        }
+  </body>
+  <script>
+    fetch('/header.html')
+      .then(response => response.text())
+      .then(headerHtml => {
+        document.querySelector('#header-container').innerHTML = headerHtml;
+      });
+  </script>
+</html>  

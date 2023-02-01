@@ -47,35 +47,47 @@ input.addEventListener('input', () => {
 //-----------------------------------------------------------------------------------------------------//
 
 class Vorrang {
-  constructor() {
-    this.relations = new Map();
-    this.vertices = new Set();
-      const [a, b] = this.relations;
-      this.addRelation(a, b);
+  constructor(relations) {
+    this.g = new Map();
+    this.v = new Set();
+    this.r = [];
+
+    for (const [a, b] of relations) {
+      if (!this.g.has(a)) this.g.set(a, []);
+      if (!this.g.has(b)) this.g.set(b, []);
+      this.g.get(a).push(b);
+    }
   }
 
-  addRelation(a, b) {
-    this.vertices.add(a);
-    this.vertices.add(b);
-    if (!this.relations.has(a)) this.relations.set(a, []);
-    this.relations.get(a).push(b);
-  }
-
-  *[Symbol.iterator]() {
-    const visited = new Set();
-    const stack = [...this.vertices];
-
-    while (stack.length > 0) {
-      const vertex = stack.pop();
-      if (visited.has(vertex)) continue;
-      visited.add(vertex);
-      yield vertex;
-      if (this.relations.has(vertex)) {
-        for (const relation of this.relations.get(vertex)) {
-          stack.push(relation);
-        }
+  [Symbol.iterator]() {
+    this.v.clear();
+    this.r.length = 0;
+    for (const node of this.g.keys()) {
+      if (!this.v.has(node)) {
+        this.topSort(node);
       }
     }
+    return {
+      next: () => {
+        if (this.r.length === 0) {
+          return { done: true };
+        }
+        return {
+          value: this.r.pop(),
+          done: false,
+        };
+      },
+    };
+  }
+
+  topSort(node) {
+    this.v.add(node);
+    for (const neighbor of this.g.get(node) || []) {
+      if (!this.v.has(neighbor)) {
+        this.topSort(neighbor);
+      }
+    }
+    this.r.push(node);
   }
 }
 
@@ -119,13 +131,13 @@ class Vorrang_Generator {
   }
 
   *[Symbol.iterator]() {
-    const visited = new Set();
+    const v = new Set();
     const stack = [...this.vertices];
 
     while (stack.length > 0) {
       const vertex = stack.pop();
-      if (visited.has(vertex)) continue;
-      visited.add(vertex);
+      if (v.has(vertex)) continue;
+      v.add(vertex);
       yield vertex;
       if (this.relations.has(vertex)) {
         for (const relation of this.relations.get(vertex)) {
@@ -173,14 +185,14 @@ class Precedence {
       get: (target, property) => {
         if (property === Symbol.iterator) {
           return function* () {
-            const visited = new Set();
+            const v = new Set();
             const stack = [...target.vertices];
 
             while (stack.length > 0) {
               console.log(`${stack.length} precedence relations remain`);
               const vertex = stack.pop();
-              if (visited.has(vertex)) continue;
-              visited.add(vertex);
+              if (v.has(vertex)) continue;
+              v.add(vertex);
               yield vertex;
               if (target.relations.has(vertex)) {
                 for (const relation of target.relations.get(vertex)) {
