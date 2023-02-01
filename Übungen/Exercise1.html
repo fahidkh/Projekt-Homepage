@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html lang="en-US">
+  <head>
+    <link rel="stylesheet" href="/header.css">
+  </head>
+  <div id="header-container"></div>
 <div>
 <h1>Übung 1.2: Inventors of the Web</h1>
 <nav>
@@ -55,4 +59,11 @@
       <td>Brendan Eich</td>
     </tr>
   </table>
+  <script>
+    fetch('/header.html')
+      .then(response => response.text())
+      .then(headerHtml => {
+        document.querySelector('#header-container').innerHTML = headerHtml;
+      });
+  </script>
 </html>  

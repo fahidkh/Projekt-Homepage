@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
+  <link rel="stylesheet" href="/header.css">
 <style>
 body {background-color: #a9d7d1;}
 h1   {text-align: center;}
@@ -28,6 +29,7 @@ h1   {text-align: center;}
 </style>
 </head>
 <body>
+  <div id="header-container"></div>
 <h1>Survey Form</h1>
 <form class="insideform">
 <p>Let us know how we can improve freeCodeCamp</p>
@@ -110,4 +112,11 @@ h1   {text-align: center;}
 </div>
 </form>
 </body>
+<script>
+  fetch('/header.html')
+    .then(response => response.text())
+    .then(headerHtml => {
+      document.querySelector('#header-container').innerHTML = headerHtml;
+    });
+</script>
 </html>

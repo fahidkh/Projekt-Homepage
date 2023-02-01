@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en-US">
     <head>
+      <link rel="stylesheet" href="/header.css">
     </head>
 <body>
+  <div id="header-container"></div>
     <h2>6.1. Klammerpaare</h2>
     <input type="text" id="input">
     <h2>6.2. Topologische Iterierbarkeit</h2>
@@ -48,10 +50,8 @@ class Vorrang {
   constructor() {
     this.relations = new Map();
     this.vertices = new Set();
-    for (const relation of relations) {
-      const [a, b] = relation;
+      const [a, b] = this.relations;
       this.addRelation(a, b);
-    }
   }
 
   addRelation(a, b) {
@@ -213,7 +213,7 @@ const studentLife1 = new Precedence([
 const container1 = document.getElementById("container1");
 
 const expected1 = ["sleep", "eat", "study", "check"];
-const actual1 = [...studentLife.logger];
+const actual1 = studentLife;
 
 const p1 = document.createElement("p1");
 if (expected1.length === actual1.length && expected1.every((e, i) => e === actual1[i])) {
@@ -276,7 +276,11 @@ for (const [actual, expected] of testCases) {
   }
   container.appendChild(p3);
 }
-
+    fetch('/header.html')
+      .then(response => response.text())
+      .then(headerHtml => {
+        document.querySelector('#header-container').innerHTML = headerHtml;
+      });
 </script>
 </body>
 </html>

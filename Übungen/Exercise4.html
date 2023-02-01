@@ -2,11 +2,13 @@
 <html lang="en-US">
     <head>
         <link rel="stylesheet" href="Exercise4.css">
+        <link rel="stylesheet" href="/header.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     </head>
 <body>
+  <div id="header-container"></div>
     <h1>Übung 4: JavaScript (JS)</h1>
     <h2>4.1. Funktionen</h2>
     <p>1. Schreiben Sie eine Funktion identity(), die ein Argument als Parameter entgegen nimmt und dieses als Ergebnis zurück gibt.</p>
@@ -158,4 +160,11 @@
   topsort([["sleep", "study"], ["eat", "study"], ["study", "check"]]) === ["eat", "sleep", "study", "check"]<br>
 );
       </pre>
+      <script>
+        fetch('/header.html')
+          .then(response => response.text())
+          .then(headerHtml => {
+            document.querySelector('#header-container').innerHTML = headerHtml;
+          });
+      </script>
 </body>

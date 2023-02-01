@@ -2,9 +2,10 @@
 <html lang="en-US">
     <head>
         <link rel="stylesheet" href="Exercise5.css">
+        <link rel="stylesheet" href="/header.css">
     </head>
 <body>
-
+  <div id="header-container"></div>
     <h2>function identity_function(x) {<br>
         return function() {<br>
           return x;<br>
@@ -159,4 +160,11 @@ var topWords = Object.keys(wordCount).sort(function(a, b) {<br>
   return wordCount[b] - word<br>
       </h2>      
     </body>
+    <script>
+      fetch('/header.html')
+        .then(response => response.text())
+        .then(headerHtml => {
+          document.querySelector('#header-container').innerHTML = headerHtml;
+        });
+    </script>
 </html>

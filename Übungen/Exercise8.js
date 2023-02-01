@@ -38,4 +38,9 @@ var fetchFileA = fetch('A.txt').then(function(response) {
   }
   concatenateFiles()
   
+  fetch('/header.html')
+      .then(response => response.text())
+      .then(headerHtml => {
+        document.querySelector('#header-container').innerHTML = headerHtml;
+      });
   

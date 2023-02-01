@@ -7,6 +7,16 @@
     border-bottom: 8px double black;
 }
 
+body {
+  background-color: #fff;
+  color: #333;
+}
+
+.dark-mode body {
+  background-color: #333;
+  color: #fff;
+}
+
 #header > img {
     height: 90px;
 }
@@ -33,9 +43,42 @@ footer {
   text-decoration: none;
   display: inline-block;
   font-size: large;
-  margin-bottom: 20px;
+  transition: transform 0.2s ease-in-out;
 }
 
 .solution__element > button:hover {
     background-color: #b58016d8;
+    cursor: pointer;
+    transform: scale(1.1);
 }
+
+.solutions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .solution__element {
+    width: 100%;
+    margin: 20px;
+  }
+
+  @media screen and (max-width: 200px) {
+    .solution__element {
+      width: 100%;
+    }
+  }
+
+  .solutions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: center;
+  }
+
+  @media screen and (max-width: 1000px) {
+    .solutions {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+  
+  

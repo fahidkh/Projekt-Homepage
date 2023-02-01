@@ -2,11 +2,12 @@
 <html lang="en-US">
     <head>
         <link rel="stylesheet" href="Exercise3.css">
+        <link rel="stylesheet" href="/header.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     </head>
-
+    <div id="header-container"></div>
     <div class="topbar">
         <p>The book series</p>
         <p>Testimonials</p>
@@ -32,4 +33,11 @@
         <p>The first ebook in the book series is absolutely free.</p>
         <button type="button">FIND OUT MORE ABOUT THIS OFFER</button>
     </div></div>
+    <script>
+        fetch('/header.html')
+          .then(response => response.text())
+          .then(headerHtml => {
+            document.querySelector('#header-container').innerHTML = headerHtml;
+          });
+      </script>
 </html>
